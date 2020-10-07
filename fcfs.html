@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FCFS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <div style="display: block;">
+  <h1 style="text-align: center;">FIRST COME FIRST SERVE</h1>
+</div>
+</head>
+<body>
+    <div class="container">
+        <p>FCFS is the simplest disk scheduling algorithm. As the name suggests, this algorithm entertains requests in the order they arrive in the disk queue. The algorithm looks very fair and there is no starvation (all requests are serviced sequentially) but generally, it does not provide the fastest service.</p>
+        <ul>
+            <h3>Advantages:</h3>
+            <li>Every request gets a fair chance</li>
+            <li>No indefinite postponement</li>
+        </ul>
+        <ul>
+            <h3>Disadvantages:</h3>
+            <li>Does not try to optimize seek time</li>
+            <li>May not provide the best possible service</li>
+        </ul>
+    </div>
+    <div class="container">
+        &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
+
+        &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
+        &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
+        <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
+        <br> &nbsp;&nbsp;
+        <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
+        <p id="t2"></p>
+    </div>
+
+
+    <script>
+        var x = 0,p=1;
+    
+        var array1 = Array();
+        var q=document.createElement("table");
+        q.setAttribute("id","mytable");
+        function add_element_to_array() 
+        {
+            
+            array1[x] = document.getElementById("text1").value;
+          
+           
+           
+           
+            var row = q.insertRow(-1);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = "process"+p;
+            cell2.innerHTML = array1[x];
+            document.body.appendChild(q);
+            
+
+            x++;
+            p++;
+            document.getElementById("text1").value = "";
+
+        }
+        console.log(array1);
+        function remove_array()
+        {
+            array1.pop();
+            var x = document.getElementById("mytable").rows.length;
+            document.getElementById("mytable").deleteRow(x-1);
+            console.log(array1);
+            p--;
+        }
+        function myfun()
+        {
+            console.log(array1);
+
+const array = array1.map((i) => Number(i));
+console.log(array);
+
+console.log(array);
+var head = document.getElementById('text2').value;
+//addPoint(head, 0);
+var seek_count = 0;
+var distance, cur_track;
+
+for (var i = 0; i < array.length; i++) {
+    cur_track = array[i];
+   // addPoint(cur_track, i + 1);
+    // calculate absolute distance 
+    distance = Math.abs(cur_track - head);
+    console.log(distance);
+    console.log(seek_count);
+
+    // increase the total count 
+    seek_count += distance;
+
+    // accessed track is now new head 
+    head = cur_track;
+}
+
+document.getElementById("t2").innerHTML = "the number of movement for fcfs =" + seek_count;
+        }
+    </script>
+</body>
+</html>
