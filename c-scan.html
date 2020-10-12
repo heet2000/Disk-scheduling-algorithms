@@ -1,138 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C-SCAN</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <div style="display: block;">
-  <h1 style="text-align: center;">C-SCAN</h1>
-</head>
-<body>
-    <div class="container">
-        <p> In SCAN algorithm, the disk arm again scans the path that has been scanned, after reversing its direction. So, it may be possible that too many requests are waiting at the other end or there may be zero or few requests pending at the scanned area.
-            These situations are avoided in CSCAN algorithm in which the disk arm instead of reversing its direction goes to the other end of the disk and starts servicing the requests from there. So, the disk arm moves in a circular fashion and this algorithm is also similar to SCAN algorithm and hence it is known as C-SCAN (Circular SCAN).</p>
-        <ul>
-            <h3>Advantages:</h3>
-            <li>C-SCAN Algorithm is the successor and the improved version of the SCAN scheduling Algorithm</li>
-            <li>The Head move from one end to the other of the disk while serving all the requests in between</li>
-            <li>The waiting time for the cylinders which were just visited by the head is reduced in C-SCAN compared to the SCAN Algorithm</li>
-            <li>Uniform waiting time is provided</li>
-            <li>Better response time is provided</li>  
-        </ul>
-        <ul>
-            <h3>Disadvantages:</h3>
-            <li>More seek movements are caused in C-SCAN compared to SCAN Algorithm.</li>
-            <li>In C-SCAN even if there are no requests left to be serviced the Head will still travel to the end of the disk unlike SCAN algorithm.</li>
-        </ul> 
-    </div>
-    <div class="container">
-        &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>C-SCAN</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="./add_point.js"></script>
 
-        &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
-        &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
-        <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
-        <br> &nbsp;&nbsp;
-        <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
-        <p id="t2"></p>
-    </div>
-    <script>
-         var x = 0,p=1;
-    
-    var array1 = Array();
-    var q=document.createElement("table");
-    q.setAttribute("id","mytable");
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div style="display: block;">
+        <h1 style="text-align: center;">C-SCAN</h1>
+    </head>
+    <body>
+        <div class="container">
+            <p> In SCAN algorithm, the disk arm again scans the path that has been scanned, after reversing its direction. So, it may be possible that too many requests are waiting at the other end or there may be zero or few requests pending at the scanned area.
+                These situations are avoided in CSCAN algorithm in which the disk arm instead of reversing its direction goes to the other end of the disk and starts servicing the requests from there. So, the disk arm moves in a circular fashion and this algorithm is also similar to SCAN algorithm and hence it is known as C-SCAN (Circular SCAN).</p>
+            <ul>
+                <h3>Advantages:</h3>
+                <li>C-SCAN Algorithm is the successor and the improved version of the SCAN scheduling Algorithm</li>
+                <li>The Head move from one end to the other of the disk while serving all the requests in between</li>
+                <li>The waiting time for the cylinders which were just visited by the head is reduced in C-SCAN compared to the SCAN Algorithm</li>
+                <li>Uniform waiting time is provided</li>
+                <li>Better response time is provided</li>  
+            </ul>
+            <ul>
+                <h3>Disadvantages:</h3>
+                <li>More seek movements are caused in C-SCAN compared to SCAN Algorithm.</li>
+                <li>In C-SCAN even if there are no requests left to be serviced the Head will still travel to the end of the disk unlike SCAN algorithm.</li>
+            </ul> 
+        </div>
+        <div class="container">
+            &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
 
-function add_element_to_array() {
-    array1[x] = document.getElementById("text1").value;
-     
-    var row = q.insertRow(-1);
+            &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
+            &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
+            <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
+            <br> &nbsp;&nbsp;
+            <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
+            <p id="t2"></p>
+            
+        </div>
+        <div id="chartContainer" style="max-width: 920px; margin: 0px auto; margin-left:40%;"></div>
+        <script>
+            var x = 0,p=1;
+        
+            var array1 = Array();
+            var q=document.createElement("table");
+            q.setAttribute("id","mytable");
+            // q.style("margin-bottom:10px;");
+            // var di = document.createElement("div").setAttribute("id" , "chartContainer");
+            // di.setAttribute("id" , "chartContainer");
+            var chart = new CanvasJS.Chart("chartContainer", {
+                    title: {
+                        text: "Adding & Updating dataPoints"
+                    },
+                    axisX2: {
+                        title: "Secondary X Axis",
 
-var cell1 = row.insertCell(0);
-var cell2 = row.insertCell(1);
-cell1.innerHTML = "process"+p;
-cell2.innerHTML = array1[x];
-document.body.appendChild(q);
+                    },
+                    axisY: {
+                        reversed: true
+                    },
+                    data: [{
+                        axisXType: "secondary",
+                        type: "line",
+                        dataPoints: []
+                    }],
+                    animationEnabled: false,
+                    animationDuration: 2000
+                });
+            chart.render();
 
-    x++;
-    p++;
-    document.getElementById("text1").value =" ";
-}
+            function add_element_to_array() {
+                array1[x] = document.getElementById("text1").value;
+                
+                var row = q.insertRow(-1);
 
-function remove_array()
-        {
-            array1.pop();
-            var x = document.getElementById("mytable").rows.length;
-            document.getElementById("mytable").deleteRow(x-1);
-            console.log(array1);
-            p--;
-        }
-        function myfun() {
-    console.log(array1);
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = "process : "+p+"-->";
+                cell2.innerHTML = array1[x];
+                document.body.appendChild(q);
 
-    const array = array1.map((i) => Number(i));
-    console.log(array);
-    var head = document.getElementById('text2').value;
-    var seek = 0;
-    var dis, cur;
-    var left = [];
-    var right = [];
-    var seq = [];
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] < head) {
-            left.push(array[i]);
-        }
-        if (array[i] > head) {
-            right.push(array[i]);
-        }
-    }
-    left.sort(function(a, b) { return (a - b) });
-    right.sort(function(a, b) { return (a - b) });
-    console.log(left);
-    console.log(right);
-    seek = seek + Math.abs(199 - head);
-    seek = seek + 199;
+                x++;
+                p++;
+                document.getElementById("text1").value =" ";
+            }
 
-    var count = 0;
-   // addPoint(head, count);
-    count++;
-    for (var i = 0; i < right.length; i++) {
-        cur = right[i];
-       //addPoint(cur, count);
-        count++;
-        seq.push(cur);
-        head = cur;
-    }
+            function remove_array(){
 
-   // addPoint(199, count);
-    count++;
-    cur = 0;
-    //addPoint(cur, count);
-    count++;
-    seq.push(cur);
-    seek = seek + Math.abs(left[left.length - 1] - cur);
+                array1.pop();
+                var x = document.getElementById("mytable").rows.length;
+                document.getElementById("mytable").deleteRow(x-1);
+                console.log(array1);
+                p--;
+            }
 
-    for (var i = 0; i < left.length; i++) {
-        cur = left[i];
-       // addPoint(cur, count);
-        count++;
-        seq.push(cur);
-        head = cur;
-    }
-    document.getElementById("t2").innerHTML = "the number of movement for C-SCAN =" + seek;
+            function myfun() {
+                console.log(array1);
+
+                const array = array1.map((i) => Number(i));
+                console.log(array);
+                var head = document.getElementById('text2').value;
+                var seek = 0;
+                var dis, cur;
+                var left = [];
+                var right = [];
+                var seq = [];
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] < head) {
+                        left.push(array[i]);
+                    }
+                    if (array[i] > head) {
+                        right.push(array[i]);
+                    }
+                }
+                left.sort(function(a, b) { return (a - b) });
+                right.sort(function(a, b) { return (a - b) });
+                console.log(left);
+                console.log(right);
+                seek = seek + Math.abs(199 - head);
+                seek = seek + 199;
+
+                var count = 0;
+                addPoint(head, count);
+                count++;
+                for (var i = 0; i < right.length; i++) {
+                    cur = right[i];
+                addPoint(cur, count);
+                    count++;
+                    seq.push(cur);
+                    head = cur;
+                }
+
+            addPoint(199, count);
+                count++;
+                cur = 0;
+                addPoint(cur, count);
+                count++;
+                seq.push(cur);
+                seek = seek + Math.abs(left[left.length - 1] - cur);
+
+                for (var i = 0; i < left.length; i++) {
+                    cur = left[i];
+                addPoint(cur, count);
+                    count++;
+                    seq.push(cur);
+                    head = cur;
+                }
+                document.getElementById("t2").innerHTML = "the number of movement for C-SCAN =" + seek;
 
 
 
-    console.log(seq);
+                console.log(seq);
 
 
 
 
 
-}
-    </script>
-</body>
+            }
+        </script>
+    </body>
 </html>

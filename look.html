@@ -1,156 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOOK</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <div style="display: block;">
-  <h1 style="text-align: center;">LOOK</h1>
-</div>
-</head>
-<body>
-    <div class="container">
-        <p>It is similar to the SCAN disk scheduling algorithm except for the difference that the disk arm in spite of going to the end of the disk goes only to the last request to be serviced in front of the head and then reverses its direction from there only. Thus it prevents the extra delay which occurred due to unnecessary traversal to the end of the disk.</p>
-        <ul>
-            <h3>Advantages:</h3>
-            <li>If there are no requests left to be services the Head will not move to the end of the disk unlike SCAN algorithm</li>
-            <li>Better performance is provided compared to SCAN Algorithm</li>
-            <li>The waiting time for the cylinders which were just visited by the head is reduced in C-SCAN compared to the SCAN Algorithm</li>
-            <li>Starvation is avoided in LOOK scheduling algorithm</li>
-            <li>Low variance is provided in waiting time and response time</li>  
-        </ul>
-        <ul>
-            <h3>Disadvantages:</h3>
-            <li>Overhead of finding the end requests is present</li>
-            <li>Cylinders which are just visited by Head have to wait for long time</li>
-        </ul>
-    </div>
-    <div class="container">
-        &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>LOOK</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="./add_point.js"></script>
 
-        &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
-        &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
-        <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
-        <br> &nbsp;&nbsp;
-        <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
-        <p id="t2"></p>
-    </div>
-    <script>
-        var x = 0,p=1;
-    
-    var array1 = Array();
-    var q=document.createElement("table");
-    q.setAttribute("id","mytable");
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div style="display: block;">
+            <h1 style="text-align: center;">LOOK</h1>
+        </div>
+    </head>
+    <body>
+        <div class="container">
+            <p>It is similar to the SCAN disk scheduling algorithm except for the difference that the disk arm in spite of going to the end of the disk goes only to the last request to be serviced in front of the head and then reverses its direction from there only. Thus it prevents the extra delay which occurred due to unnecessary traversal to the end of the disk.</p>
+            <ul>
+                <h3>Advantages:</h3>
+                <li>If there are no requests left to be services the Head will not move to the end of the disk unlike SCAN algorithm</li>
+                <li>Better performance is provided compared to SCAN Algorithm</li>
+                <li>The waiting time for the cylinders which were just visited by the head is reduced in C-SCAN compared to the SCAN Algorithm</li>
+                <li>Starvation is avoided in LOOK scheduling algorithm</li>
+                <li>Low variance is provided in waiting time and response time</li>  
+            </ul>
+            <ul>
+                <h3>Disadvantages:</h3>
+                <li>Overhead of finding the end requests is present</li>
+                <li>Cylinders which are just visited by Head have to wait for long time</li>
+            </ul>
+        </div>
+        <div class="container">
+            &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
 
-function add_element_to_array() {
-    array1[x] = document.getElementById("text1").value;
-     
-    var row = q.insertRow(-1);
+            &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
+            &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
+            <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
+            <br> &nbsp;&nbsp;
+            <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
+            <p id="t2"></p>
+        </div>
+        <br>
+        <div id="chartContainer" style="max-width: 920px; margin: 0px auto; margin-left:40%;"></div>
+        <script>
+            var x = 0,p=1;
+        
+            var array1 = Array();
+            var q=document.createElement("table");
+            // q.style.marginLeft="8vw";
+            q.setAttribute("id","mytable");
 
-var cell1 = row.insertCell(0);
-var cell2 = row.insertCell(1);
-cell1.innerHTML = "process"+p;
-cell2.innerHTML = array1[x];
-document.body.appendChild(q);
+            
+            var chart = new CanvasJS.Chart("chartContainer", {
+                    title: {
+                        text: "Adding & Updating dataPoints"
+                    },
+                    axisX2: {
+                        title: "Secondary X Axis",
 
-    x++;
-    p++;
-    document.getElementById("text1").value =" ";
-}
+                    },
+                    axisY: {
+                        reversed: true
+                    },
+                    data: [{
+                        axisXType: "secondary",
+                        type: "line",
+                        dataPoints: []
+                    }],
+                    animationEnabled: false,
+                    animationDuration: 2000
+                });
+                chart.render();
 
-function remove_array()
-        {
-            array1.pop();
-            var x = document.getElementById("mytable").rows.length;
-            document.getElementById("mytable").deleteRow(x-1);
-            console.log(array1);
-            p--;
-        }
+            function add_element_to_array() {
+                array1[x] = document.getElementById("text1").value;
+                
+                var row = q.insertRow(-1);
 
-        function myfun() 
-        {
-    console.log(array1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = "process :"+ p +"--> ";
+            cell2.innerHTML = array1[x];
+            document.body.appendChild(q);
 
-    const array = array1.map((i) => Number(i));
-    console.log(array);
-
-    var head = document.getElementById('text2').value;
-    var direction = "right";
-    var seek = 0,
-        distance, cur;
-    var left = [];
-    var right = [];
-    var sequence = [];
-    for (var i = 0; i < array.length; i++) {
-        if (array[i] < head) {
-            left.push(array[i]);
-        }
-        if (array[i] > head) {
-            right.push(array[i]);
-        }
-    }
-    left.sort(function(a, b) {
-        return a - b;
-    })
-    console.log(left);
-    right.sort(function(a, b) {
-        return a - b;
-    })
-    console.log(right);
-    var run = 2;
-    var count = 0;
-  //  addPoint(head, count);
-    count++;
-    while (run--) {
-        if (direction == "left") {
-            for (var i = left.length - 1; i >= 0; i--) {
-                cur = left[i];
-
-                // appending current track to seek sequence 
-                sequence.push(cur);
-               // addPoint(cur, count);
-                count++;
-                // calculate absolute distance 
-                distance = Math.abs(cur - head);
-
-                // increase the total count 
-                seek += distance;
-
-                // accessed track is now the new head 
-                head = cur;
+                x++;
+                p++;
+                document.getElementById("text1").value =" ";
             }
-            // reversing the direction 
-            direction = "right";
-        } else if (direction == "right") {
-            for (var i = 0; i < right.length; i++) {
-                cur = right[i];
-                // appending current track to seek sequence 
-                sequence.push(cur);
-               // addPoint(cur, count);
+
+            function remove_array()
+                    {
+                        array1.pop();
+                        var x = document.getElementById("mytable").rows.length;
+                        document.getElementById("mytable").deleteRow(x-1);
+                        console.log(array1);
+                        p--;
+                    }
+
+            function myfun() 
+            {
+                console.log(array1);
+
+                const array = array1.map((i) => Number(i));
+                console.log(array);
+
+                var head = document.getElementById('text2').value;
+                var direction = "right";
+                var seek = 0,distance, cur;
+                var left = [];
+                var right = [];
+                var sequence = [];
+                for (var i = 0; i < array.length; i++) {
+                    if (array[i] < head) {
+                        left.push(array[i]);
+                    }
+                    if (array[i] > head) {
+                        right.push(array[i]);
+                    }
+                }
+                left.sort(function(a, b) {
+                    return a - b;
+                })
+                console.log(left);
+                right.sort(function(a, b) {
+                    return a - b;
+                })
+                console.log(right);
+                var run = 2;
+                var count = 0;
+                addPoint(head, count);
                 count++;
+                while (run--) {
+                    if (direction == "left") {
+                        for (var i = left.length - 1; i >= 0; i--) {
+                            cur = left[i];
 
-                // calculate absolute distance 
-                distance = Math.abs(cur - head);
+                            // appending current track to seek sequence 
+                            sequence.push(cur);
+                            addPoint(cur, count);
+                            count++;
+                            // calculate absolute distance 
+                            distance = Math.abs(cur - head);
 
-                // increase the total count 
-                seek += distance;
+                            // increase the total count 
+                            seek += distance;
 
-                // accessed track is now new head 
-                head = cur;
+                            // accessed track is now the new head 
+                            head = cur;
+                        }
+                        // reversing the direction 
+                        direction = "right";
+                    } 
+                    else if (direction == "right") {
+                        for (var i = 0; i < right.length; i++) {
+                            cur = right[i];
+                            // appending current track to seek sequence 
+                            sequence.push(cur);
+                            addPoint(cur, count);
+                            count++;
+
+                            // calculate absolute distance 
+                            distance = Math.abs(cur - head);
+
+                            // increase the total count 
+                            seek += distance;
+
+                            // accessed track is now new head 
+                            head = cur;
+                        }
+                        // reversing the direction 
+                        direction = "left";
+                    }
+                }
+
+                document.getElementById("t2").innerHTML = "the number of movement look is =" + seek;
             }
-            // reversing the direction 
-            direction = "left";
-        }
-    }
 
-    document.getElementById("t2").innerHTML = "the number of movement look is =" + seek;
-}
-
-    </script>
-    
-</body>
+        </script>
+        
+    </body>
 </html>
