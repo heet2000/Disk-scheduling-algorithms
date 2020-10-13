@@ -1,121 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SSTF</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <div style="display: block;">
-  <h1 style="text-align: center;">SHORTEST SEEK TIME FIRST</h1>
-</div>
-</head>
-<body>
-    <div class="container">
-        <p>In SSTF (Shortest Seek Time First), requests having shortest seek time are executed first. So, the seek time of every request is calculated in advance in the queue and then they are scheduled according to their calculated seek time. As a result, the request near the disk arm will get executed first. SSTF is certainly an improvement over FCFS as it decreases the average response time and increases the throughput of system</p>
-        <ul>
-            <h3>Advantages:</h3>
-            <li>Average Response Time decreases</li>
-            <li>Throughput increases</li>
-        </ul>
-        <ul>
-            <h3>Disadvantages:</h3>
-            <li>Overhead to calculate seek time in advance</li>
-            <li>Can cause Starvation for a request if it has higher seek time as compared to incoming requests</li>
-            <li>High variance of response time as SSTF favours only some requests</li>
-        </ul>
-    </div>
-    <div class="container">
-        &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>SSTF</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <script src="./add_point.js"></script>
 
-        &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
-        &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
-        <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
-        <br> &nbsp;&nbsp;
-        <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
-        <p id="t2"></p>
-    </div>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <div style="display: block;">
+            <h1 style="text-align: center;">SHORTEST SEEK TIME FIRST</h1>
+        </div>
+    </head>
 
-    <script>
-        var x = 0,p=1;
-    
-    var array1 = Array();
-    var q=document.createElement("table");
-    q.setAttribute("id","mytable");
+    <body>
+        <div class="container">
+            <p>In SSTF (Shortest Seek Time First), requests having shortest seek time are executed first. So, the seek time of every request is calculated in advance in the queue and then they are scheduled according to their calculated seek time. As a result, the request near the disk arm will get executed first. SSTF is certainly an improvement over FCFS as it decreases the average response time and increases the throughput of system</p>
+            <ul>
+                <h3>Advantages:</h3>
+                <li>Average Response Time decreases</li>
+                <li>Throughput increases</li>
+            </ul>
+            <ul>
+                <h3>Disadvantages:</h3>
+                <li>Overhead to calculate seek time in advance</li>
+                <li>Can cause Starvation for a request if it has higher seek time as compared to incoming requests</li>
+                <li>High variance of response time as SSTF favours only some requests</li>
+            </ul>
+        </div>
+        <div class="container">
+            &nbsp;&nbsp; <input type="text" id="text1" placeholder="enter order of request sequence : "></input>
 
-function add_element_to_array() {
-    array1[x] = document.getElementById("text1").value;
-     
-    var row = q.insertRow(-1);
+            &nbsp; <input type="button" id="button1" value="Add" onclick="add_element_to_array()"></input>
+            &nbsp;<input type="button" id="button2" value="Remove" onclick="remove_array()"></input><br> <br> &nbsp;&nbsp;
+            <input type="text" id="text2" placeholder="enter read/write head  position : "></input><br>
+            <br> &nbsp;&nbsp;
+            <input type="submit" value="SUBMIT IT" onclick="myfun();" id="continue">
+            <p id="t2"></p>
+            
+        </div>
+        <div id="chartContainer" style=" max-width: 920px; margin: 0px auto;margin-left:40%;"></div>
+        <script>
+            var chart = new CanvasJS.Chart("chartContainer", {
+                title: {
+                    text: "Adding & Updating dataPoints"
+                },
+                axisX2: {
+                    title: "Secondary X Axis",
 
-var cell1 = row.insertCell(0);
-var cell2 = row.insertCell(1);
-cell1.innerHTML = "process"+p;
-cell2.innerHTML = array1[x];
-document.body.appendChild(q);
+                },
+                axisY: {
+                    reversed: true
+                },
+                data: [{
+                    axisXType: "secondary",
+                    type: "line",
+                    dataPoints: []
+                }],
+                animationEnabled: false,
+                animationDuration: 2000
+            });
+            chart.render();
+            var x = 0,p=1;
+        
+            var array1 = Array();
+            var q=document.createElement("table");
+            q.setAttribute("id","mytable");
 
-    x++;
-    p++;
-    document.getElementById("text1").value = "";
-}
+            function add_element_to_array() {
+                array1[x] = document.getElementById("text1").value;
+                
+                var row = q.insertRow(-1);
 
-function remove_array()
-        {
-            array1.pop();
-            var x = document.getElementById("mytable").rows.length;
-            document.getElementById("mytable").deleteRow(x-1);
-            console.log(array1);
-            p--;
-        }
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+                cell1.innerHTML = "process :"+p+ "-->";
+                cell2.innerHTML = array1[x];
+                document.body.appendChild(q);
 
-function myfun() {
-    console.log(array1);
-
-    const array = array1.map((i) => Number(i));
-    console.log(array);
-    var i, n, k, mov = 0,
-        cp, min, j = 0,
-        mini, cp1;
-    var req = [];
-    var index = [];
-    var a = [];
-    cp = document.getElementById('text2').value;
-    cp1 = cp;
-    //addPoint(cp1, 0);
-    console.log(cp);
-    for (k = 0; k < array.length; k++) {
-        for (i = 0; i < array.length; i++) {
-            index[i] = Math.abs(cp - array[i]);
-        }
-
-        min = index[0];
-        mini = 0;
-        for (i = 1; i < array.length; i++) {
-            if (min > index[i]) {
-                min = index[i];
-                mini = i;
+                x++;
+                p++;
+                document.getElementById("text1").value = "";
             }
-        }
-        a[j] = array[mini];
-        //add point in graph
-      // addPoint(a[j], k + 1);
-        j++;
-        cp = array[mini]; // change the current position value to next request
-        array[mini] = 999;
-    } // the request that is processed its value is changed so that it is not processed again
-    console.log(mov);
-    mov = mov + Math.abs(cp1 - a[0]);
-    for (i = 1; i < array.length; i++) {
-        mov = mov + Math.abs(a[i] - a[i - 1]); ///head movement
 
-    }
-    //var r=mov;
-    console.log(a);
+            function remove_array()
+            {
+                
+                array1.pop();
+                var x = document.getElementById("mytable").rows.length;
+                document.getElementById("mytable").deleteRow(x-1);
+                console.log(array1);
+                p--;
+            }
 
-    document.getElementById("t2").innerHTML = "the number of movement is =" + mov;
-}
-    </script>
-</body>
+            function myfun() {
+                console.log(array1);
+
+                const array = array1.map((i) => Number(i));
+                console.log(array);
+                var i, n, k, mov = 0,cp, min, j = 0, mini, cp1;
+                var req = [];
+                var index = [];
+                var a = [];
+                cp = document.getElementById('text2').value;
+                cp1 = cp;
+                addPoint(cp1, 0);
+                console.log(cp);
+                for (k = 0; k < array.length; k++) {
+                    for (i = 0; i < array.length; i++) {
+                        index[i] = Math.abs(cp - array[i]);
+                    }
+
+                    min = index[0];
+                    mini = 0;
+                    for (i = 1; i < array.length; i++) {
+                        if (min > index[i]) {
+                            min = index[i];
+                            mini = i;
+                        }
+                    }
+                    a[j] = array[mini];
+                    //add point in graph
+                    addPoint(a[j], k + 1);
+                    j++;
+                    cp = array[mini]; // change the current position value to next request
+                    array[mini] = 999;
+                } // the request that is processed its value is changed so that it is not processed again
+                console.log(mov);
+                mov = mov + Math.abs(cp1 - a[0]);
+                for (i = 1; i < array.length; i++) {
+                    mov = mov + Math.abs(a[i] - a[i - 1]); ///head movement
+
+                }
+                //var r=mov;
+                console.log(a);
+
+                document.getElementById("t2").innerHTML = "the number of movement is =" + mov;
+            }
+        </script>
+    </body>
 </html>
